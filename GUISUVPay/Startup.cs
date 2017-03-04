@@ -100,7 +100,7 @@ namespace SUISUVPay
             WxPayConfig.SSLCERT_PATH = appSetting.WXSSLCertPath;
             AlipayConfig.AppId = appSetting.AlipayAppid;
             AlipayConfig.PId = appSetting.AlipayPid;
-            AlipayConfig.NotifyUrl = $"{appSetting.DomainName}/api/alipaysm/notify";
+            AlipayConfig.NotifyUrl = $"{appSetting.DomainName}/api/alipaymdm/notify";
         }
     }
 }

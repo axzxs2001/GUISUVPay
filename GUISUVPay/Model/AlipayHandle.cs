@@ -424,7 +424,7 @@ namespace SUISUVPay.Model
             var isSign = false;
             if (!string.IsNullOrEmpty(sign))
             {
-                isSign = AlipaySignature.RSACheckContent(preSignStr, sign, AlipayConfig.alipay_public_key, AlipayConfig.charset, AlipayConfig.sign_type, false);
+                isSign = AlipaySignature.RSACheckContent(preSignStr, sign, AlipayConfig.alipay_public_key, AlipayConfig.charset, AlipayConfig.sign_type, true);
             }
             return isSign;
         }
