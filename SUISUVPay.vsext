@@ -1,0 +1,12 @@
+﻿{
+  "extensions": {
+    "mandatory": [
+      {
+        "name": "Web Compiler",
+        "productId": "148ffa77-d70a-407f-892b-9ee542346862",
+        "link": "https://visualstudiogallery.msdn.microsoft.com/3b329021-cd7a-4a01-86fc-714c2d05bb6c",
+        "description": "We use this to compile LESS and CoffeeScript files"
+      }
+    ]
+  }
+}

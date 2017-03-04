@@ -1,0 +1,39 @@
+{
+  "version": 2,
+  "exports": {
+    "AopSdk/1.0.0": {
+      "type": "project",
+      "framework": ".NETFramework,Version=v3.5",
+      "compile": {
+        "bin/Debug/AopSdk.dll": {}
+      },
+      "runtime": {
+        "bin/Debug/AopSdk.dll": {}
+      },
+      "contentFiles": {
+        "bin/Debug/AopSdk.pdb": {
+          "buildAction": "None",
+          "codeLanguage": "any",
+          "copyToOutput": true
+        }
+      }
+    },
+    "SUISUVPayEntity/1.0.0": {
+      "type": "project",
+      "framework": ".NETFramework,Version=v4.0",
+      "compile": {
+        "bin/Debug/SUISUVPayEntity.dll": {}
+      },
+      "runtime": {
+        "bin/Debug/SUISUVPayEntity.dll": {}
+      },
+      "contentFiles": {
+        "bin/Debug/SUISUVPayEntity.pdb": {
+          "buildAction": "None",
+          "codeLanguage": "any",
+          "copyToOutput": true
+        }
+      }
+    }
+  }
+}
