@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using System.Text;
 using Aop.Api.Util;
 using NLog;
+using RestSharp.Extensions.MonoHttp;
 
 namespace SUISUVPay.Model
 {
@@ -385,7 +386,7 @@ namespace SUISUVPay.Model
                 _log.Info("通知回调函数 NotiyCallBack 开始");
                 var dic = GetDic(content);
                 //验证回调通知是否正确
-                if (GetSignVeryfy(dic))
+                if (GetSignVeryfy(dic) && CheckParams(dic))
                 {
                     _log.Info("通知回调函数成功！");
                     var payResultNotify = GetPayResultNotify(dic);
@@ -412,12 +413,12 @@ namespace SUISUVPay.Model
         /// <summary>
         /// 获取返回时的签名验证结果
         /// </summary>
-        /// <param name="inputPara">通知返回参数数组</param>
-        /// <param name="sign">对比的签名结果</param>
+        /// <param name="inputPara">通知返回参数数组</param>    
         /// <returns>签名验证结果</returns>
         bool GetSignVeryfy(SortedDictionary<string, string> inputPara)
         {
-            var sign = inputPara["sign"];
+            var sign = ValidateSign(inputPara["sign"]);
+            var sPara = FilterPara(inputPara);
             //获取待签名字符串
             var preSignStr = CreateLinkString(inputPara);
             //获得签名验证结果
@@ -427,6 +428,57 @@ namespace SUISUVPay.Model
                 isSign = AlipaySignature.RSACheckContent(preSignStr, sign, AlipayConfig.alipay_public_key, AlipayConfig.charset, AlipayConfig.sign_type, true);
             }
             return isSign;
+        }
+        /// <summary>
+        /// 对支付宝异步通知的关键参数进行校验
+        /// </summary>
+        /// <returns></returns>
+        private bool CheckParams(SortedDictionary<string, string> inputPara)
+        {
+            //获得调用方的appid；
+            //如果是非授权模式，appid是商户的appid；如果是授权模式（token调用），appid是系统商的appid
+            string app_id = inputPara["app_id"];
+
+            //验证上述四个参数，完全吻合则返回参数校验成功
+            if (app_id == AlipayConfig.AppId)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// 验证sign是否为4的倍数
+        /// </summary>
+        /// <param name="sign">签名</param>
+        /// <returns></returns>
+        string ValidateSign(string sign)
+        {
+            var addLength = 4 - sign.Length % 4;
+            for (int i = 0; i < addLength; i++)
+            {
+                sign += "=";
+            }
+            return sign;
+        }
+        /// <summary>
+        /// 除去数组中的空值和签名参数并以字母a到z的顺序排序
+        /// </summary>
+        /// <param name="dicArrayPre">过滤前的参数组</param>
+        /// <returns>过滤后的参数组</returns>
+        public Dictionary<string, string> FilterPara(SortedDictionary<string, string> dicArrayPre)
+        {
+            var dicArray = new Dictionary<string, string>();
+            foreach (KeyValuePair<string, string> temp in dicArrayPre)
+            {
+                if (temp.Key.ToLower() != "sign" && temp.Key.ToLower() != "sign_type")
+                {
+                    dicArray.Add(temp.Key, temp.Value);
+                }
+            }
+            return dicArray;
         }
         /// <summary>
         /// 把数组所有元素，按照“参数=参数值”的模式用“&”字符拼接成字符串
@@ -475,6 +527,7 @@ namespace SUISUVPay.Model
         /// <returns></returns>
         SortedDictionary<string, string> GetDic(string content)
         {
+            content = HttpUtility.UrlDecode(content);
             var strArr = content.Split('&');
             var dic = new SortedDictionary<string, string>();
             foreach (var key in strArr)
