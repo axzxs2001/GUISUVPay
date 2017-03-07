@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "SUISUVPay", "GUISUVPay\SUISUVPay.xproj", "{55B98A3D-999E-49FF-B8D8-916C2FD67406}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GUISUVPay", "GUISUVPay\GUISUVPay.csproj", "{55B98A3D-999E-49FF-B8D8-916C2FD67406}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SUISUVPayEntity", "GUISUVEntity\SUISUVPayEntity.csproj", "{34ADCAB2-AB98-42C6-BEAA-E7A53880C7D2}"
 EndProject
