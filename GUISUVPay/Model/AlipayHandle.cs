@@ -60,7 +60,8 @@ namespace SUISUVPay.Model
             //生成bizcontent的json数据，并把默认值除掉
             payRequst.BizContent = JsonConvert.SerializeObject(precreate, new Newtonsoft.Json.JsonSerializerSettings()
             {
-                DefaultValueHandling = DefaultValueHandling.Ignore
+                DefaultValueHandling = DefaultValueHandling.Ignore,
+                ContractResolver = new LowerPropertyContractResolver()
             }).ToLower();
             var payResponse = client.Execute(payRequst);
             if (payResponse.Code == "10000")
