@@ -10,8 +10,12 @@ namespace SUISUVPayEntity.WeiXin.ShaoMa
     /// 统一下单
     /// </summary>
     public class UnifiedOrder
-    {     
-      
+    {
+        /// <summary>
+        /// 设备标识
+        /// </summary>
+        public string DeviceID
+        { get; set; }
         /// <summary>
         /// 商品描述  必填 128
         /// </summary>

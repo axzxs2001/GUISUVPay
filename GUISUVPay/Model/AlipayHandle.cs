@@ -56,6 +56,7 @@ namespace SUISUVPay.Model
             _log.Info("扫码预支付 Precreate 开始");
             var payRequst = new AlipayTradePrecreateRequest();
             payRequst.SetNotifyUrl(AlipayConfig.NotifyUrl);
+            precreate.Body = $"{precreate.DeviceID}║{precreate.Body}";
             //生成bizcontent的json数据，并把默认值除掉
             payRequst.BizContent = JsonConvert.SerializeObject(precreate, new Newtonsoft.Json.JsonSerializerSettings()
             {
@@ -390,7 +391,28 @@ namespace SUISUVPay.Model
                 {
                     _log.Info("通知回调函数成功！");
                     var payResultNotify = GetPayResultNotify(dic);
-                    var client = new RestSharp.RestClient(_setting.AlipayNoticeCallBackUrl);
+                    //从body中把设备号切出来
+                    var arr = payResultNotify.Body.Split('║');
+                    var devID = "";
+                    if (arr.Length > 0)
+                    {
+                        devID = arr[0];
+                    }
+                    if (arr.Length > 1)
+                    {
+                        payResultNotify.Body = arr[1];
+                    }
+                    var callBackUrl = "";
+                    //获取返回的设备ID
+                    foreach (var dev in _setting.BackNotifies)
+                    {
+                        if (dev.DeviceID == devID)
+                        {
+                            callBackUrl = dev.NotifyUrl;
+                            break;
+                        }
+                    }
+                    var client = new RestSharp.RestClient(callBackUrl);
                     var request = new RestSharp.RestRequest("", RestSharp.Method.POST);
                     request.RequestFormat = RestSharp.DataFormat.Json;
                     request.AddJsonBody(payResultNotify);

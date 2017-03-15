@@ -488,7 +488,17 @@ namespace SUISUVPay.Model
             _log.Info("通知回调函数 NotiyCallBack 开始");
             try
             {
-                var callBackUrl = _setting.WXNoticeCallBackUrl;
+                var devID = backResult.GetValue("device_info")?.ToString();
+                var callBackUrl = "";
+                //获取返回的设备ID
+                foreach (var dev in _setting.BackNotifies)
+                {
+                    if (dev.DeviceID == devID)
+                    {
+                        callBackUrl = dev.NotifyUrl;
+                        break;
+                    }
+                }
                 var client = new RestSharp.RestClient(callBackUrl);
                 var request = new RestSharp.RestRequest("", RestSharp.Method.POST);
                 request.RequestFormat = RestSharp.DataFormat.Json;

@@ -1,4 +1,6 @@
-﻿namespace SUISUVPay
+﻿using System.Collections.Generic;
+
+namespace SUISUVPay
 {
     /// <summary>
     /// 参数类，对应appsettings.json
@@ -7,16 +9,7 @@
     { 
 
         #region 公共参数
-        /// <summary>
-        /// 微信回调使用本接口的程序url
-        /// </summary>
-        public string WXNoticeCallBackUrl
-        { get; set; }
-        /// <summary>
-        /// 支付宝回调使用本接口的程序url
-        /// </summary>
-        public string AlipayNoticeCallBackUrl
-        { get; set; }
+ 
         /// <summary>
         /// 支付平台所在域名或公网IP地址
         /// </summary>
@@ -69,6 +62,27 @@
         public string AlipayPid
         { get; set; }
         #endregion
+        /// <summary>
+        /// 回调集合
+        /// </summary>
+        public List<BackNotify> BackNotifies
+        { get; set; }
 
+    }
+    /// <summary>
+    /// 通知实体类
+    /// </summary>
+    public class BackNotify
+    {
+        /// <summary>
+        /// 设备ID
+        /// </summary>
+        public string DeviceID
+        { get; set; }
+        /// <summary>
+        /// 通知URL
+        /// </summary>
+        public string NotifyUrl
+        { get; set; }
     }
 }

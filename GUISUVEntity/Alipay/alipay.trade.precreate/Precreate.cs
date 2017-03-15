@@ -9,6 +9,11 @@ namespace SUISUVPayEntity.Alipay
     public class Precreate
     {
         /// <summary>
+        /// 设备标识
+        /// </summary>
+        public string DeviceID
+        { get; set; }
+        /// <summary>
         /// 商户订单号,64个字符以内、只能包含字母、数字、下划线；需保证在商户端不重复 必选 64
         /// </summary>
         public string Out_Trade_No
